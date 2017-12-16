@@ -10,7 +10,6 @@ defmodule Coherence.ConfirmationController do
 
   alias Coherence.ControllerHelpers, as: Helpers
   alias Coherence.{ConfirmableService, Messages}
-  alias Ecto.DateTime
   alias Coherence.Schemas
 
   require Logger
@@ -88,8 +87,8 @@ defmodule Coherence.ConfirmationController do
         else
           changeset = Helpers.changeset(:confirmation, user_schema, user, %{
             confirmation_token: nil,
-            confirmed_at: DateTime.utc,
-            })
+            confirmed_at: NaiveDateTime.utc_now(),
+          })
           case Config.repo.update(changeset) do
             {:ok, _user} ->
               conn

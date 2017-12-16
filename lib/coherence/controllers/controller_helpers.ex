@@ -92,7 +92,7 @@ defmodule Coherence.ControllerHelpers do
   @doc """
   Test if a datetime has expired.
 
-  Convert the datetime from Ecto.DateTime format to Timex format to do
+  Convert the datetime from NaiveDateTime format to Timex format to do
   the comparison given the time during in opts.
 
   ## Examples
@@ -100,14 +100,13 @@ defmodule Coherence.ControllerHelpers do
       expired?(user.expire_at, days: 5)
       expired?(user.expire_at, minutes: 10)
 
-      iex> Ecto.DateTime.utc
-      ...> |> Coherence.ControllerHelpers.expired?(days: 1)
+      iex> NaiveDateTime.utc_now()
+      ...> |> Coherence.Controller.expired?(days: 1)
       false
 
-      iex> Ecto.DateTime.utc
-      ...> |> Coherence.ControllerHelpers.shift(days: -2)
-      ...> |> Ecto.DateTime.cast!
-      ...> |> Coherence.ControllerHelpers.expired?(days: 1)
+      iex> NaiveDateTime.utc_now()
+      ...> |> Coherence.Controller.shift(days: -2)
+      ...> |> Coherence.Controller.expired?(days: 1)
       true
   """
   @spec expired?(nil | struct, Keyword.t) :: boolean
@@ -117,20 +116,19 @@ defmodule Coherence.ControllerHelpers do
   end
 
   @doc """
-  Shift a Ecto.DateTime.
+  Shift a NaiveDateTime.
 
   ## Examples
 
-      iex> Ecto.DateTime.cast!("2016-10-10 10:10:10")
-      ...> |> Coherence.ControllerHelpers.shift(days: -2)
-      ...> |> Ecto.DateTime.cast!
+      iex> ~N(2016-10-10 10:10:10)
+      ...> |> Coherence.Controller.shift(days: -2)
       ...> |> to_string
-      "2016-10-08 10:10:10"
+      "2016-10-08 10:10:10Z"
   """
   @spec shift(struct, Keyword.t) :: struct
   def shift(datetime, opts) do
     datetime
-    |> Ecto.DateTime.to_erl
+    |> NaiveDateTime.to_erl
     |> Timex.to_datetime
     |> Timex.shift(opts)
   end
@@ -174,7 +172,7 @@ defmodule Coherence.ControllerHelpers do
       token = random_string 48
       url = router_helpers().confirmation_url(conn, :edit, token)
       Logger.debug "confirmation email url: #{inspect url}"
-      dt = Ecto.DateTime.utc
+      dt = NaiveDateTime.utc_now()
       user
       |> user_schema.changeset(%{confirmation_token: token,
         confirmation_sent_at: dt,
@@ -222,7 +220,7 @@ defmodule Coherence.ControllerHelpers do
   can set this data far in the future to do a pseudo permanent lock.
   """
   @spec lock!(Ecto.Schema.t, struct) :: schema_or_error
-  def lock!(user, locked_at \\ Ecto.DateTime.utc) do
+  def lock!(user, locked_at \\ NaiveDateTime.utc_now()) do
     user_schema = Config.user_schema
     changeset = user_schema.lock user, locked_at
     if user_schema.locked?(user) do
