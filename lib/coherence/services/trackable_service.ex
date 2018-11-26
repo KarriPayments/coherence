@@ -212,7 +212,7 @@ defmodule Coherence.TrackableService do
 
   defp last_at_and_ip(conn, schema) do
     now = Ecto.DateTime.utc
-    ip = conn.peer |> elem(0) |> inspect
+    ip = conn.remote_ip |> inspect
     cond do
       is_nil(schema.last_sign_in_at) and is_nil(schema.current_sign_in_at) ->
         {now, ip, ip, now}
