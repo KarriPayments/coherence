@@ -13,7 +13,7 @@ defmodule <%= user_schema %> do
     field :email, :string
     coherence_schema()
 
-    timestamps(type: :naive_datetime)
+    timestamps()
   end
 
   def changeset(model, params \\ %{}) do
