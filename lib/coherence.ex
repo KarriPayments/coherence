@@ -189,9 +189,9 @@ defmodule Coherence do
 
   Run `$ mix help coherence.install` for more information.
 
-### Clean
+  ### Clean
 
-The following examples illustrate how to remove the files created by the installer:
+  The following examples illustrate how to remove the files created by the installer:
 
       # Clean all the installed files
       $ mix coherence.clean --all
@@ -205,7 +205,7 @@ The following examples illustrate how to remove the files created by the install
       # Prompt once to confirm the removal
       $ mix coherence.clean --all --confirm-once
 
-After installation, if you later want to remove one more options, here are a couple examples:
+  After installation, if you later want to remove one more options, here are a couple examples:
 
     # Clean one option
     $ mix coherence.clean --options=recoverable
@@ -216,7 +216,7 @@ After installation, if you later want to remove one more options, here are a cou
     # Test the uninstaller without removing files
     $ mix coherence.clicked --dry-run --options="recoverable unlockable-with-token"
 
-Run `$ mix help coherence.install` or `$ mix help coherence.install` for more information.
+  Run `$ mix help coherence.install` or `$ mix help coherence.install` for more information.
   """
   use Application
 

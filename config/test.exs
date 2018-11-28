@@ -10,11 +10,11 @@ config :coherence, TestCoherenceWeb.Endpoint,
   server: false
 
 config :coherence, TestCoherence.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MySQL,
+  username: "test_user",
+  password: "test_user_password",
   database: "coherence_test",
-  hostname: "localhost",
+  hostname: "127.0.0.1",
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :coherence,

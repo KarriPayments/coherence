@@ -101,12 +101,12 @@ defmodule Coherence.ControllerHelpers do
       expired?(user.expire_at, minutes: 10)
 
       iex> NaiveDateTime.utc_now()
-      ...> |> Coherence.Controller.expired?(days: 1)
+      ...> |> Coherence.ControllerHelpers.expired?(days: 1)
       false
 
       iex> NaiveDateTime.utc_now()
-      ...> |> Coherence.Controller.shift(days: -2)
-      ...> |> Coherence.Controller.expired?(days: 1)
+      ...> |> Coherence.ControllerHelpers.shift(days: -2)
+      ...> |> Coherence.ControllerHelpers.expired?(days: 1)
       true
   """
   @spec expired?(nil | struct, Keyword.t) :: boolean
@@ -121,7 +121,7 @@ defmodule Coherence.ControllerHelpers do
   ## Examples
 
       iex> ~N(2016-10-10 10:10:10)
-      ...> |> Coherence.Controller.shift(days: -2)
+      ...> |> Coherence.ControllerHelpers.shift(days: -2)
       ...> |> to_string
       "2016-10-08 10:10:10Z"
   """

@@ -88,7 +88,11 @@ defmodule CoherenceTest.PasswordController do
 
       assert old_password_hash == user.password_hash
       assert user.reset_password_token == token
-      assert user.reset_password_sent_at == old_sent_at
+      assert naive_eq?(user.reset_password_sent_at, old_sent_at)
+    end
+
+    defp naive_eq?(%NaiveDateTime{} = dt1, %NaiveDateTime{} = dt2) do
+      abs(NaiveDateTime.diff(dt1, dt2, :millisecond)) < 1000
     end
 
     test "valid token has expired, reset token gets removed", %{conn: conn} do
