@@ -39,7 +39,7 @@ defmodule Coherence.Mixfile do
       {:phoenix, "~> 1.3"},
       {:phoenix_html, "~> 2.10"},
       {:gettext, "~> 0.14"},
-      {:uuid, "~> 1.0"},
+      {:elixir_uuid, "~> 1.2"},
       {:phoenix_swoosh, "~> 0.2"},
       {:timex, "~> 3.2"},
       {:timex_ecto, "~> 3.2"},
