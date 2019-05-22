@@ -42,6 +42,11 @@ defmodule Coherence.CredentialStore.Server do
     GenServer.cast @name, {:delete_credentials, credentials}
   end
 
+  @spec delete_user(%{}) :: no_return
+  def delete_user(user) do
+    GenServer.cast @name, {:delete_user, user}
+  end
+
   @spec stop() :: no_return
   def stop do
     GenServer.cast @name, :stop
@@ -90,6 +95,15 @@ defmodule Coherence.CredentialStore.Server do
     end)
     {:noreply, state}
 
+  end
+
+  @doc false
+  def handle_cast({:delete_user, %{id: id}}, state) do
+    state =
+      state
+      |> update_in([:store], &(&1 |> Enum.reject(fn {_,v} -> v == id end) |> Enum.into(%{})))
+      |> update_in([:user_data], &Map.delete(&1, id))
+    {:noreply, state}
   end
 
   @doc false
