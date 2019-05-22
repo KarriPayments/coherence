@@ -101,7 +101,7 @@ defmodule Coherence.CredentialStore.Server do
   def handle_cast({:delete_user, %{id: id}}, state) do
     state =
       state
-      |> update_in([:store], &(&1 |> Enum.reject(fn {_,v} -> v == 1 end) |> Enum.into(%{})))
+      |> update_in([:store], &(&1 |> Enum.reject(fn {_,v} -> v == id end) |> Enum.into(%{})))
       |> update_in([:user_data], &Map.delete(&1, id))
     {:noreply, state}
   end
